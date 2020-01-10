@@ -1,5 +1,12 @@
 <?php
     session_start();
+    if(count($_SESSION)==0){
+        echo ha;
+        ob_start();
+        header('Location: index.php');
+        ob_end_flush();
+        die();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en" style="height: 100%;">
