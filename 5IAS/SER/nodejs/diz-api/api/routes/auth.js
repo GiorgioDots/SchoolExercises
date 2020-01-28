@@ -11,16 +11,7 @@ router.put(
   [
     body('nickname')
       .trim()
-      .isLength({ min: 5 })
-      .custom((value) => {
-        return mysqlSync.performQuerySync(`SELECT id FROM users WHERE nickname = '${value}'`)
-          .then(result => {
-            if (result.results.length > 0) {
-              console.log(result);
-              return Promise.reject('Nickname already exists');
-            }
-          });
-      }),
+      .isLength({ min: 5 }),
     body('password')
       .trim()
       .isLength({ min: 5 }),

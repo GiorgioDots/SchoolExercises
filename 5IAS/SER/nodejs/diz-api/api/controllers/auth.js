@@ -52,8 +52,20 @@ exports.signup = (req, res, next) => {
   let nickname = req.body.nickname;
   let password = req.body.password;
   let role = req.body.role;
-  bcrypt
-    .hash(password, 12)
+  mysqlSync.performQuerySync(`SELECT id FROM users WHERE nickname = '${nickname}'`)
+    .then(result => {
+      if (result.results.length > 0) {
+        console.log(result);
+        const error = new Error('Nickname already exists');
+        error.statusCode = 402;
+        throw error;
+      }
+      return Promise.resolve(result)
+    })
+    .then(result => {
+      return bcrypt
+        .hash(password, 12);
+    })
     .then(hashedPw => {
       return mysqlSync.performQuerySync(`INSERT INTO users (nickname, password, role) VALUES ('${nickname}', '${hashedPw}', '${role}')`)
         .then(result => {
@@ -69,9 +81,6 @@ exports.signup = (req, res, next) => {
         'supersecret'
       );
       res.status(201).json({ message: 'Success', user: result.results[0], token: token });
-    })
-    .catch(err => {
-      throw err;
     })
     .catch(err => {
       if (!err.statusCode) {
