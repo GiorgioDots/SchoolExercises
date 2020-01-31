@@ -13,8 +13,7 @@ public class CreateWord implements java.io.Serializable {
 	}
 
 	public void setWord(String val) {
-		handler.updateQuery(
-				"INSERT INTO `dictionary` (`id`, `word`, `meaning`, `synonyms`, `antonyms`, `creator`) VALUES (NULL, '"
-						+ val + "', '" + this.meaning + "', '', '', '');");
+		handler.updateQuery("INSERT INTO `dictionary` (`id`, `word`, `meaning`) VALUES (NULL, '" + val + "', '"
+				+ this.meaning + "');");
 	}
 }

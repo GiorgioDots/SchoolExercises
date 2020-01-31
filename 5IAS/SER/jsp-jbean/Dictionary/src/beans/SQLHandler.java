@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class SQLHandler {
     private Connection connect = null;
@@ -13,8 +14,7 @@ public class SQLHandler {
     public SQLHandler() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.connect = DriverManager
-                    .getConnection("jdbc:mysql://remotemysql.com:3306/vU2wjjmkdc?user=vU2wjjmkdc&password=V59wxxba2x");
+            this.connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/dizionario?user=root&password=");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -22,15 +22,14 @@ public class SQLHandler {
 
     public String selectQuery(String query) {
         try {
-            String result;
+            ArrayList<String> result = new ArrayList<String>();
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
-            if (resultSet.next()) {
-                result = resultSet.getString("meaning");
-            } else {
-                result = "Word not found";
+            while (resultSet.next()) {
+                System.out.println(query);
+                result.add("{ \"meaning\": \"" + resultSet.getString("meaning") + "\"}");
             }
-            return result;
+            return result.toString();
         } catch (Exception e) {
             return e.toString();
         }
