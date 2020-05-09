@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <title>Primo esempio PHP</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      .container {
+        padding-top: 3vh;
+      }
+      #card {
+        border: 1px solid #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.075),
+          0 6px 20px 0 rgba(0, 0, 0, 0.075);
+      }
+    </style>
+  </head>
+
+  <body onload="viewLoginF()" style="background-color: #f2f2f2;">
+    <form action="risposta.php" method="post">
+      <div class="container">
+        <div id="card">
+          <div class="row justify-content-md-center">
+            <div class="col">
+              <div class="form-group">
+                <label for="op">Scegli l'operazione</label>
+                <select
+                  onchange="viewLoginF()"
+                  class="form-control"
+                  size="1"
+                  id="op"
+                  name="op"
+                >
+                  <option selected></option>
+                  <option value="dati">Visualizza dati</option>
+                  <option value="check">Esegui login</option>
+                  <option value="signup">Registrati</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nome">Nome</label>
+                <input class="form-control" type="text" id="nome" name="nome" />
+              </div>
+              <div class="form-group">
+                <label for="cognome">Cognome</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  id="cognome"
+                  name="cognome"
+                />
+              </div>
+              <div id="signup">
+                <div class="form-group">
+                  <label for="birthday">Data di nascita</label>
+                  <input
+                    class="form-control"
+                    type="date"
+                    id="birthday"
+                    name="birthday"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="email"
+                    name="email"
+                  />
+                </div>
+              </div>
+              <div id="login">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="username"
+                    name="username"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="password"
+                    name="password"
+                  />
+                </div>
+              </div>
+              <input class="btn btn-success" type="submit" value="invia" />
+              <input class="btn btn-warning" type="reset" value="cancella" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        function viewLoginF() {
+          let op = document.getElementById("op").value;
+          let loginDiv = document.getElementById("login");
+          let signupDiv = document.getElementById("signup");
+          if (op === "check") {
+            loginDiv.style.display = "block";
+            signupDiv.style.display = "none";
+          } else if (op === "signup") {
+            loginDiv.style.display = "block";
+            signupDiv.style.display = "block";
+          } else {
+            loginDiv.style.display = "none";
+            signupDiv.style.display = "none";
+          }
+        }
+      </script>
+    </form>
+  </body>
+</html>
