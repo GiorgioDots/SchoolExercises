@@ -32,57 +32,63 @@ $evHandler = new EventHandler();
     </nav>
   </header>
   <main>
-    <div class="container pt-3">
-      <div class="row">
-        <div class="col">
-          <label for="action">Select an action</label>
-          <form action="/" method="POST" class="form-inline">
-            <div class="form-group mr-sm-3">
-              <select class="form-control" id="action" name="action" onchange="onSelectAction(this.value)">
-                <option value="create_tables">Create Tables</option>
-                <option value="populate_tables">Populate Tables</option>
-                <option value="query">Query</option>
-              </select>
+    <form action="/" method="POST">
+      <div class="container pt-3">
+        <div class="row">
+          <div class="col">
+            <label for="action">Select an action</label>
+            <div class="form-inline">
+              <div class="form-group mr-sm-3">
+                <select class="form-control" id="action" name="action" onchange="onSelectAction(this.value)">
+                  <option value="create_tables">Create Tables</option>
+                  <option value="populate_tables">Populate Tables</option>
+                  <option value="query">Query</option>
+                </select>
+              </div>
+              <div id="selectQueryDiv"></div>
+              <button class="btn btn-outline-secondary mr-sm-3" type="submit">Execute</button>
             </div>
-            <div id="selectQueryDiv"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col pt-3">
             <div id="insertQueryDiv"></div>
-            <button class="btn btn-outline-secondary" type="submit">Execute</button>
-          </form>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col pt-3">
-          <?php
-          if (sizeof($_POST) > 0) {
-            $action = $_POST['action'];
-            switch ($action) {
-              case "create_tables":
-                $evHandler->onCreateTables();
-                break;
-              case "populate_tables":
-                $evHandler->onPopulateTables(300);
-                break;
-              case "query":
-                echo "<h4>Selected query</h4>";
-                echo "<div class='pb-3'>";
-                $sql = $_POST["query"];
-                echo "<code>$sql</code>";
-                echo "</div>";
-                $evHandler->onExecuteQuery($sql);
-                break;
+            <?php
+            if (sizeof($_POST) > 0) {
+              $action = $_POST['action'];
+              switch ($action) {
+                case "create_tables":
+                  $evHandler->onCreateTables();
+                  break;
+                case "populate_tables":
+                  $evHandler->onPopulateTables(1000);
+                  break;
+                case "query":
+                  $sql = $_POST["query"];
+                  echo "
+                  <div class='p-3 mb-3' style='white-space:pre-line; border: 1px solid #f4f4f4; background-color: #f0efed'>
+                    <h6>Selected query</h6>
+                    <code>${sql}</code>
+                  </div>
+                ";
+                  $evHandler->onExecuteQuery($sql);
+                  break;
+              }
+            } else {
+              $sql = "SELECT * FROM actor";
+              echo "
+              <div class='p-3 mb-3' style='white-space:pre-line; border: 1px solid #f4f4f4; background-color: #f0efed'>
+                <h6>Defauld query</h6>
+                <code>${sql}</code>
+              </div>
+            ";
+              $evHandler->onExecuteQuery($sql);
             }
-          } else {
-            $sql = "SELECT * FROM actor";
-            echo "<h4>Default query</h4>";
-            echo "<div class='pb-3'>";
-            echo "<code>$sql</code>";
-            echo "</div>";
-            $evHandler->onExecuteQuery($sql);
-          }
-          ?>
+            ?>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </main>
   <footer class="text-muted">
     <div class="container">

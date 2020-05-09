@@ -117,7 +117,16 @@ class MySQLDriver
 
   public function executeQuery($query)
   {
+    if (!$query) {
+      throw new Exception("No query inserted.");
+    }
     $result = $this->connection->query($query);
+    if (!$result) {
+      throw new Exception("No result.");
+    }
+    if ($result->num_rows == 0) {
+      throw new Exception("No result.");
+    }
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 

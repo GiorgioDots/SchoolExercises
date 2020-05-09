@@ -42,27 +42,33 @@ class EventHandler
 
   public function onExecuteQuery($query)
   {
-    $data = $this->db->executeQuery($query);
-    $row1 = $data[0];
-    $cols = array();
-    echo "<table class='table table-striped table-bordered table-responsive-sm'>";
-    echo "<thead>";
-    echo "<tr>";
-    foreach ($row1 as $col => $value) {
-      echo "<th scope='col'>$col</th>";
-      array_push($cols, $col);
-    }
-    echo "</tr>";
-    echo "</thead>";
-    echo "<tbody>";
-    foreach ($data as $row) {
+    try {
+      $data = $this->db->executeQuery($query);
+      $row1 = $data[0];
+      $cols = array();
+      echo "<table class='table table-striped table-bordered table-responsive-sm'>";
+      echo "<thead>";
       echo "<tr>";
-      foreach ($cols as $col) {
-        echo "<td>{$row[$col]}</td>";
+      foreach ($row1 as $col => $value) {
+        echo "<th scope='col'>$col</th>";
+        array_push($cols, $col);
       }
       echo "</tr>";
+      echo "</thead>";
+      echo "<tbody>";
+      foreach ($data as $row) {
+        echo "<tr>";
+        foreach ($cols as $col) {
+          echo "<td>{$row[$col]}</td>";
+        }
+        echo "</tr>";
+      }
+      echo "</tbody>";
+      echo "</table>";
+    } catch (Exception $e) {
+      echo $this->errorDivOpen;
+      echo $e->getMessage();
+      echo $this->divClose;
     }
-    echo "</tbody>";
-    echo "</table>";
   }
 }
